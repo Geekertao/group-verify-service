@@ -1,4 +1,12 @@
 <?php
+// 解析 SQLite 数据库路径：相对路径基于项目根目录解析，避免 php-fpm 工作目录不同导致连到空库
+$sqliteDbPath = trim((string)env('DB_PATH', ''));
+if ($sqliteDbPath === '' || $sqliteDbPath === ':memory:') {
+    $sqliteDbPath = app()->getRootPath() . 'database' . DIRECTORY_SEPARATOR . 'sqlite.db';
+} elseif (!preg_match('#^(/|[a-zA-Z]:)#', $sqliteDbPath)) {
+    $sqliteDbPath = app()->getRootPath() . ltrim(str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $sqliteDbPath), DIRECTORY_SEPARATOR);
+}
+
 return [
     // 默认使用的数据库连接配置
     'default'         => env('DB_DRIVER', 'sqlite'),
@@ -61,7 +69,7 @@ return [
             // 数据库类型
             'type'            => 'sqlite',
             // 数据库名
-            'database'        => env('DB_PATH', app()->getRootPath() . 'database' . DIRECTORY_SEPARATOR . 'sqlite.db'),
+            'database'        => $sqliteDbPath,
             // 数据库表前缀
             'prefix'          => '',
             // 是否需要断线重连
