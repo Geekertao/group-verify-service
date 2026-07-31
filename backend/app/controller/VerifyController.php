@@ -123,6 +123,7 @@ class VerifyController extends BaseController
                 'data' => [
                     'ticket' => $ticket,
                     'verified' => true,
+                    'code' => (string)($data['code'] ?? ''),
                     'code_expire' => $codeExpire,
                     'expire_minutes' => $expireMinutes,
                 ],

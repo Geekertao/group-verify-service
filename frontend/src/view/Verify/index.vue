@@ -284,14 +284,52 @@ onMounted(() => {
 .verify-card {
   width: 100%;
   max-width: 460px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  overflow: hidden;
+}
+
+.verify-card :deep(.arco-card-body) {
+  background: transparent;
+}
+
+.verify-card :deep(.arco-alert) {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.verify-card :deep(.arco-alert .arco-alert-title) {
+  color: #fff;
+}
+
+.verify-card :deep(.arco-alert .arco-alert-content) {
+  color: #fff;
+}
+
+.verify-card :deep(.arco-alert .arco-icon) {
+  color: #fff;
+}
+
+.verify-card :deep(.arco-result .arco-result-title) {
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.verify-card :deep(.arco-result .arco-result-subtitle) {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .card-title {
   font-size: 20px;
   font-weight: 600;
   text-align: center;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .code-display {
@@ -299,13 +337,14 @@ onMounted(() => {
   font-weight: 900;
   letter-spacing: 8px;
   text-align: center;
-  color: var(--color-text-2);
-  background: var(--color-fill-2);
-  border: 2px solid var(--color-border-2);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 8px;
   padding: 16px 24px;
   margin-bottom: 16px;
   font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .captcha-container {
@@ -314,9 +353,9 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-fill-1);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  border: 1px dashed var(--color-border-2);
+  border: 1px dashed rgba(255, 255, 255, 0.35);
 }
 
 .verify-state {
