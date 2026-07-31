@@ -51,13 +51,12 @@
           </div>
         </template>
       </a-spin>
-    </a-card>
-
-    <div class="footer">
+      <div class="footer">
       <a-typography-text type="secondary" class="footer-text">
-        项目地址：<a-link href="https://github.com/VanillaNahida/group-verify-service" target="_blank">Github</a-link>
+        此服务由<a href="https://geekertao.top" target="_blank" style="color:#D45637;">Geekertao</a>提供支持,原项目地址:<a href="https://github.com/VanillaNahida/group-verify-service" target="_blank" style="color:#1F2328;">Github</a>
       </a-typography-text>
     </div>
+    </a-card>
   </div>
 </template>
 
@@ -272,8 +271,14 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--color-fill-1);
+  background: var(--color-fill-1) url('https://imgheybox.max-c.com/bbs/2025/11/25/57e8263cf4ee484d6a144e82100ddf9c.jpeg') center / cover no-repeat;
   padding: 20px;
+}
+
+@media (max-width: 767px) {
+  .verify-container {
+    background-image: url('https://imgheybox.max-c.com/bbs/2025/11/25/5ab7fe9f369660013f867f0d8db1add5.jpeg');
+  }
 }
 
 .verify-card {
