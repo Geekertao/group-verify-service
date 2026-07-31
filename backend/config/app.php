@@ -9,8 +9,8 @@ return [
     'app_namespace'    => '',
     // 是否启用路由
     'with_route'       => true,
-    // 应用快速访问
-    'app_express'      => true,
+    // 应用快速访问（本项目为单应用结构，必须为 false，否则 think-multi-app 会把所有请求强转到不存在的 app/home）
+    'app_express'      => false,
     // 默认应用
     'default_app'      => 'home',
     // 默认时区
