@@ -310,6 +310,16 @@ watch(activeKey, (k) => {
   background: var(--color-bg-1);
 }
 
+.layout :deep(.arco-layout-has-sider) {
+  flex: 1;
+  min-height: 0;
+}
+
+.layout :deep(.arco-layout-content) {
+  overflow-y: auto;
+  height: 100%;
+}
+
 .header {
   background: var(--color-bg-1);
   border-bottom: 1px solid var(--color-border-2);
