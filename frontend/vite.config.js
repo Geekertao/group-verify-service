@@ -15,12 +15,10 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
+        // 依赖全部并进一个 chunk：把 arco/vue/vendor 拆开会在 ES module
+        // 初始化顺序上打结，构建后页面直接白屏（Cannot access 'D' before initialization）。
         manualChunks(id) {
-          const s = String(id || '');
-          if (!s.includes('node_modules')) return;
-          if (s.includes('@arco-design')) return 'arco';
-          if (s.includes(`${path.sep}vue${path.sep}`) || s.includes(`${path.sep}@vue${path.sep}`)) return 'vue';
-          return 'vendor';
+          return String(id || '').includes('node_modules') ? 'vendor' : undefined;
         }
       }
     }
