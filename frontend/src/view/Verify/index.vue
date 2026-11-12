@@ -9,7 +9,8 @@
         <a-result v-if="error" status="error" :title="t('load_failed')" :subtitle="error" />
 
         <template v-else>
-          <a-result v-if="verified" status="success" :title="t('title_success')" :subtitle="t('verify_success_subtitle')">
+          <a-result v-if="verified" status="success" :title="t('title_success')"
+            :subtitle="t('verify_success_subtitle')">
             <template #extra>
               <div class="code-display">{{ code }}</div>
 
@@ -36,12 +37,7 @@
             <div id="captcha" class="captcha-container"></div>
 
             <a-space direction="vertical" fill size="medium">
-              <a-button
-                type="primary"
-                long
-                :disabled="submitting || !captchaReady"
-                @click="startCaptcha"
-              >
+              <a-button type="primary" long :disabled="submitting || !captchaReady" @click="startCaptcha">
                 {{ captchaReady ? t('start_verify') : t('captcha_loading') }}
               </a-button>
               <a-button long :disabled="submitting" @click="refreshStatus">
@@ -52,10 +48,16 @@
         </template>
       </a-spin>
       <div class="footer">
-      <a-typography-text type="secondary" class="footer-text">
-        此服务由<a href="https://geekertao.top" target="_blank" style="color:#D45637;">Geekertao</a>提供支持,原项目地址:<a href="https://github.com/VanillaNahida/group-verify-service" target="_blank" style="color:#1F2328;">Github</a>
-      </a-typography-text>
-    </div>
+        <a-typography-text type="secondary" class="footer-text">
+          此服务由<a href="https://geekertao.top" target="_blank" style="color:#D45637;">Geekertao</a>提供支持,原项目地址:<a
+            href="https://github.com/VanillaNahida/group-verify-service" target="_blank"
+            style="color:#1F2328;">Github</a>
+        </a-typography-text>
+        <a href="https://beian.miit.gov.cn/" target="_blank" class="icp-badge">
+          <img src="https://www.geekertao.com/miit_logo.png" alt="工信部备案" />
+          鲁ICP备2026027679号-5
+        </a>
+      </div>
     </a-card>
   </div>
 </template>
@@ -122,7 +124,7 @@ function initGeetest() {
 
       try {
         obj.appendTo('#captcha');
-      } catch (e) {}
+      } catch (e) { }
 
       obj
         .onReady(() => {
@@ -179,7 +181,7 @@ async function submitVerification(geetestResult) {
       try {
         await copyText(code.value);
         Message.success(t('code_copied_paste'));
-      } catch (e) {}
+      } catch (e) { }
       return;
     }
 
@@ -188,7 +190,7 @@ async function submitVerification(geetestResult) {
     if (captchaObj) {
       try {
         captchaObj.reset();
-      } catch (e) {}
+      } catch (e) { }
     }
   } catch (e) {
     Message.error(t('network_error_retry'));
@@ -271,13 +273,13 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--color-fill-1) url('https://imgheybox.max-c.com/bbs/2025/11/25/57e8263cf4ee484d6a144e82100ddf9c.jpeg') center / cover no-repeat;
+  background: var(--color-fill-1) url('https://img.geekertao.com/uploads/2026/11/12/57e8263cf4ee484d6a144e82100ddf9c_98b5f82c-6d2a-4d5d-a218-a7165b9f93da.jpg') center / cover no-repeat;
   padding: 20px;
 }
 
 @media (max-width: 767px) {
   .verify-container {
-    background-image: url('https://imgheybox.max-c.com/bbs/2025/11/25/5ab7fe9f369660013f867f0d8db1add5.jpeg');
+    background-image: url('https://img.geekertao.com/uploads/2026/11/12/5ab7fe9f369660013f867f0d8db1add5_c5ff70f8-35b4-478f-8251-8cef2f741813.jpg');
   }
 }
 
@@ -371,5 +373,36 @@ onMounted(() => {
   display: block;
   margin: 4px 0;
   color: var(--color-text-2);
+}
+
+.icp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f8faff 0%, #eef4ff 100%);
+  padding: 4px 14px 4px 10px;
+  border-radius: 30px;
+  border: 1px solid #d0dff0;
+  box-shadow: 0 2px 6px rgba(0, 20, 50, 0.06);
+  text-decoration: none;
+  font-size: 14px;
+  color: #2c3e50;
+  transition: all 0.2s ease;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.icp-badge:hover {
+  background: linear-gradient(135deg, #eef4ff 0%, #dce8ff 100%);
+  border-color: #8bb3e0;
+  box-shadow: 0 4px 12px rgba(30, 80, 180, 0.12);
+  transform: translateY(-1px);
+  color: #1a2a44;
+}
+
+.icp-badge img {
+  height: 18px;
+  width: auto;
+  vertical-align: middle;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
 }
 </style>
