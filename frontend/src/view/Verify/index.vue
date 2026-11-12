@@ -1,7 +1,5 @@
 <template>
   <div class="verify-container">
-    <div class="background-shade" aria-hidden="true"></div>
-
     <a-card class="verify-card" :bordered="false">
       <template #title>
         <div class="card-title">{{ title }}</div>
@@ -269,82 +267,36 @@ onMounted(() => {
 
 <style scoped>
 .verify-container {
-  position: relative;
-  isolation: isolate;
-  box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
-  min-height: 100svh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px 20px 40px;
-  background: #0b1724 url('https://img.geekertao.com/uploads/2026/11/12/57e8263cf4ee484d6a144e82100ddf9c_98b5f82c-6d2a-4d5d-a218-a7165b9f93da.jpg') center / cover no-repeat;
+  background: var(--color-fill-1) url('https://img.geekertao.com/uploads/2026/11/12/57e8263cf4ee484d6a144e82100ddf9c_98b5f82c-6d2a-4d5d-a218-a7165b9f93da.jpg') center / cover no-repeat;
+  padding: 20px;
 }
 
-/* 只压暗四角、不加任何色相：背景照片原本的颜色就是玻璃的底色 */
-.background-shade {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: radial-gradient(120% 90% at 50% 38%, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.38) 78%);
+@media (max-width: 767px) {
+  .verify-container {
+    background-image: url('https://img.geekertao.com/uploads/2026/11/12/5ab7fe9f369660013f867f0d8db1add5_c5ff70f8-35b4-478f-8251-8cef2f741813.jpg');
+  }
 }
 
 .verify-card {
-  position: relative;
-  z-index: 0;
   width: 100%;
-  max-width: 480px;
+  max-width: 460px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  background: rgba(12, 20, 30, 0.34);
-  box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.45),
-    0 6px 18px rgba(0, 0, 0, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-  -webkit-backdrop-filter: blur(30px) saturate(1.45);
-  backdrop-filter: blur(30px) saturate(1.45);
-  animation: cardFadeIn 0.45s ease-out both;
-}
-
-/* 斜向反光：玻璃感主要来自这一层 */
-.verify-card::before {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  content: '';
-  pointer-events: none;
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.18), transparent 30%, transparent 70%, rgba(255, 255, 255, 0.06));
-}
-
-@keyframes cardFadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.verify-card :deep(.arco-card-header) {
-  position: relative;
-  z-index: 1;
-  padding: 24px 32px 22px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.05);
 }
 
 .verify-card :deep(.arco-card-body) {
-  position: relative;
-  z-index: 1;
   background: transparent;
-}
-
-.card-title {
-  font-size: 20px;
-  font-weight: 600;
-  text-align: center;
-  color: #fff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .verify-card :deep(.arco-alert) {
@@ -353,37 +305,48 @@ onMounted(() => {
   color: #fff;
 }
 
-.verify-card :deep(.arco-alert .arco-alert-title),
-.verify-card :deep(.arco-alert .arco-alert-content),
+.verify-card :deep(.arco-alert .arco-alert-title) {
+  color: #fff;
+}
+
+.verify-card :deep(.arco-alert .arco-alert-content) {
+  color: #fff;
+}
+
 .verify-card :deep(.arco-alert .arco-icon) {
   color: #fff;
 }
 
 .verify-card :deep(.arco-result .arco-result-title) {
   color: #fff;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .verify-card :deep(.arco-result .arco-result-subtitle) {
-  color: rgba(255, 255, 255, 0.86);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .code-display {
-  margin-bottom: 16px;
-  padding: 20px 18px;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.36);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-  font-size: clamp(30px, 7vw, 42px);
-  font-weight: 800;
-  letter-spacing: clamp(4px, 1.8vw, 9px);
-  line-height: 1.1;
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 8px;
   text-align: center;
-  word-break: break-all;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  padding: 16px 24px;
+  margin-bottom: 16px;
+  font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .captcha-container {
@@ -392,9 +355,9 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px dashed rgba(255, 255, 255, 0.34);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.35);
 }
 
 .verify-state {
@@ -409,18 +372,18 @@ onMounted(() => {
 .footer-text {
   display: block;
   margin: 4px 0;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--color-text-2);
 }
 
 .icp-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.86);
+  background: linear-gradient(135deg, #f8faff 0%, #eef4ff 100%);
   padding: 4px 14px 4px 10px;
   border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 2px 6px rgba(0, 12, 30, 0.16);
+  border: 1px solid #d0dff0;
+  box-shadow: 0 2px 6px rgba(0, 20, 50, 0.06);
   text-decoration: none;
   font-size: 14px;
   color: #2c3e50;
@@ -429,9 +392,9 @@ onMounted(() => {
 }
 
 .icp-badge:hover {
-  background: #fff;
+  background: linear-gradient(135deg, #eef4ff 0%, #dce8ff 100%);
   border-color: #8bb3e0;
-  box-shadow: 0 4px 12px rgba(30, 80, 180, 0.18);
+  box-shadow: 0 4px 12px rgba(30, 80, 180, 0.12);
   transform: translateY(-1px);
   color: #1a2a44;
 }
@@ -441,33 +404,5 @@ onMounted(() => {
   width: auto;
   vertical-align: middle;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
-}
-
-/* 不支持 backdrop-filter 时给深色实底，保证白字可读 */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .verify-card {
-    background: rgba(14, 22, 32, 0.9);
-  }
-}
-
-@media (max-width: 767px) {
-  .verify-container {
-    padding: 18px 12px calc(18px + env(safe-area-inset-bottom));
-    background-image: url('https://img.geekertao.com/uploads/2026/11/12/5ab7fe9f369660013f867f0d8db1add5_c5ff70f8-35b4-478f-8251-8cef2f741813.jpg');
-  }
-
-  .verify-card {
-    border-radius: 16px;
-  }
-
-  .verify-card :deep(.arco-card-header) {
-    padding: 20px 20px 18px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .verify-card {
-    animation: none;
-  }
 }
 </style>
