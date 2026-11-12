@@ -1,5 +1,7 @@
 <template>
   <div class="verify-container">
+    <div class="background-shade" aria-hidden="true"></div>
+
     <a-card class="verify-card" :bordered="false">
       <template #title>
         <div class="card-title">{{ title }}</div>
@@ -267,86 +269,113 @@ onMounted(() => {
 
 <style scoped>
 .verify-container {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--color-fill-1) url('https://img.geekertao.com/uploads/2026/11/12/57e8263cf4ee484d6a144e82100ddf9c_98b5f82c-6d2a-4d5d-a218-a7165b9f93da.jpg') center / cover no-repeat;
-  padding: 20px;
+  padding: 32px 20px 40px;
+  background: #0b1724 url('https://img.geekertao.com/uploads/2026/11/12/57e8263cf4ee484d6a144e82100ddf9c_98b5f82c-6d2a-4d5d-a218-a7165b9f93da.jpg') center / cover no-repeat;
 }
 
-@media (max-width: 767px) {
-  .verify-container {
-    background-image: url('https://img.geekertao.com/uploads/2026/11/12/5ab7fe9f369660013f867f0d8db1add5_c5ff70f8-35b4-478f-8251-8cef2f741813.jpg');
-  }
+/* 遮罩层：给毛玻璃一层稳定的深色底，blur 才不会糊出脏色 */
+.background-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(5, 18, 30, 0.82), rgba(12, 45, 55, 0.6)),
+    linear-gradient(180deg, rgba(8, 24, 40, 0.24), rgba(6, 18, 29, 0.72));
 }
 
 .verify-card {
+  position: relative;
+  z-index: 0;
   width: 100%;
-  max-width: 460px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(18px) saturate(160%);
-  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  max-width: 480px;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 20px;
+  background: rgba(235, 246, 248, 0.6);
+  box-shadow:
+    0 24px 70px rgba(1, 12, 24, 0.34),
+    0 4px 16px rgba(1, 12, 24, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(28px) saturate(1.18);
+  backdrop-filter: blur(28px) saturate(1.18);
+  animation: cardFadeIn 0.45s ease-out both;
+}
+
+/* 斜向反光：玻璃感主要来自这一层，必须裁在圆角内且不挡点击 */
+.verify-card::before {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.28), transparent 28%, transparent 72%, rgba(255, 255, 255, 0.1));
+}
+
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 头部第二层玻璃：青绿渐变 + 更小半径的模糊 */
+.verify-card :deep(.arco-card-header) {
+  position: relative;
+  z-index: 1;
+  padding: 26px 32px 24px;
+  border-bottom: 0;
+  background: linear-gradient(140deg, rgba(11, 39, 57, 0.86), rgba(13, 74, 80, 0.72));
+  -webkit-backdrop-filter: blur(18px) saturate(1.25);
+  backdrop-filter: blur(18px) saturate(1.25);
+}
+
+.verify-card :deep(.arco-card-header)::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  content: '';
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
 }
 
 .verify-card :deep(.arco-card-body) {
+  position: relative;
+  z-index: 1;
   background: transparent;
-}
-
-.verify-card :deep(.arco-alert) {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #fff;
-}
-
-.verify-card :deep(.arco-alert .arco-alert-title) {
-  color: #fff;
-}
-
-.verify-card :deep(.arco-alert .arco-alert-content) {
-  color: #fff;
-}
-
-.verify-card :deep(.arco-alert .arco-icon) {
-  color: #fff;
-}
-
-.verify-card :deep(.arco-result .arco-result-title) {
-  color: #fff;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-}
-
-.verify-card :deep(.arco-result .arco-result-subtitle) {
-  color: rgba(255, 255, 255, 0.85);
 }
 
 .card-title {
   font-size: 20px;
   font-weight: 600;
+  letter-spacing: 0.02em;
   text-align: center;
-  color: #fff;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  color: #f8fffe;
 }
 
 .code-display {
-  font-size: 36px;
-  font-weight: 900;
-  letter-spacing: 8px;
-  text-align: center;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 8px;
-  padding: 16px 24px;
   margin-bottom: 16px;
+  padding: 20px 18px;
+  color: #754b08;
+  border: 1px solid #f2cb65;
+  border-radius: 12px;
+  background: #fff8df;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
   font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  font-size: clamp(30px, 7vw, 42px);
+  font-weight: 800;
+  letter-spacing: clamp(4px, 1.8vw, 9px);
+  line-height: 1.1;
+  text-align: center;
+  word-break: break-all;
 }
 
 .captcha-container {
@@ -355,9 +384,9 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  border: 1px dashed rgba(255, 255, 255, 0.35);
+  border: 1px dashed rgba(18, 34, 53, 0.25);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .verify-state {
@@ -379,10 +408,10 @@ onMounted(() => {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(135deg, #f8faff 0%, #eef4ff 100%);
+  background: rgba(255, 255, 255, 0.78);
   padding: 4px 14px 4px 10px;
   border-radius: 30px;
-  border: 1px solid #d0dff0;
+  border: 1px solid rgba(18, 34, 53, 0.14);
   box-shadow: 0 2px 6px rgba(0, 20, 50, 0.06);
   text-decoration: none;
   font-size: 14px;
@@ -392,7 +421,7 @@ onMounted(() => {
 }
 
 .icp-badge:hover {
-  background: linear-gradient(135deg, #eef4ff 0%, #dce8ff 100%);
+  background: rgba(255, 255, 255, 0.92);
   border-color: #8bb3e0;
   box-shadow: 0 4px 12px rgba(30, 80, 180, 0.12);
   transform: translateY(-1px);
@@ -404,5 +433,33 @@ onMounted(() => {
   width: auto;
   vertical-align: middle;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+/* 不支持 backdrop-filter 时给一层更实的高透明白底，保证文字可读 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .verify-card {
+    background: rgba(240, 248, 250, 0.94);
+  }
+}
+
+@media (max-width: 767px) {
+  .verify-container {
+    padding: 18px 12px calc(18px + env(safe-area-inset-bottom));
+    background-image: url('https://img.geekertao.com/uploads/2026/11/12/5ab7fe9f369660013f867f0d8db1add5_c5ff70f8-35b4-478f-8251-8cef2f741813.jpg');
+  }
+
+  .verify-card {
+    border-radius: 16px;
+  }
+
+  .verify-card :deep(.arco-card-header) {
+    padding: 22px 20px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .verify-card {
+    animation: none;
+  }
 }
 </style>
