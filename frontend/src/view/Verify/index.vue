@@ -282,15 +282,13 @@ onMounted(() => {
   background: #0b1724 url('https://img.geekertao.com/uploads/2026/11/12/57e8263cf4ee484d6a144e82100ddf9c_98b5f82c-6d2a-4d5d-a218-a7165b9f93da.jpg') center / cover no-repeat;
 }
 
-/* 遮罩层：给毛玻璃一层稳定的深色底，blur 才不会糊出脏色 */
+/* 只压暗四角、不加任何色相：背景照片原本的颜色就是玻璃的底色 */
 .background-shade {
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
-    linear-gradient(135deg, rgba(5, 18, 30, 0.82), rgba(12, 45, 55, 0.6)),
-    linear-gradient(180deg, rgba(8, 24, 40, 0.24), rgba(6, 18, 29, 0.72));
+  background: radial-gradient(120% 90% at 50% 38%, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.38) 78%);
 }
 
 .verify-card {
@@ -299,26 +297,27 @@ onMounted(() => {
   width: 100%;
   max-width: 480px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 20px;
-  background: rgba(235, 246, 248, 0.6);
+  background: rgba(12, 20, 30, 0.34);
   box-shadow:
-    0 24px 70px rgba(1, 12, 24, 0.34),
-    0 4px 16px rgba(1, 12, 24, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  -webkit-backdrop-filter: blur(28px) saturate(1.18);
-  backdrop-filter: blur(28px) saturate(1.18);
+    0 28px 70px rgba(0, 0, 0, 0.45),
+    0 6px 18px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+  -webkit-backdrop-filter: blur(30px) saturate(1.45);
+  backdrop-filter: blur(30px) saturate(1.45);
   animation: cardFadeIn 0.45s ease-out both;
 }
 
-/* 斜向反光：玻璃感主要来自这一层，必须裁在圆角内且不挡点击 */
+/* 斜向反光：玻璃感主要来自这一层 */
 .verify-card::before {
   position: absolute;
   inset: 0;
   z-index: 3;
   content: '';
   pointer-events: none;
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.28), transparent 28%, transparent 72%, rgba(255, 255, 255, 0.1));
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.18), transparent 30%, transparent 70%, rgba(255, 255, 255, 0.06));
 }
 
 @keyframes cardFadeIn {
@@ -326,25 +325,12 @@ onMounted(() => {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* 头部第二层玻璃：青绿渐变 + 更小半径的模糊 */
 .verify-card :deep(.arco-card-header) {
   position: relative;
   z-index: 1;
-  padding: 26px 32px 24px;
-  border-bottom: 0;
-  background: linear-gradient(140deg, rgba(11, 39, 57, 0.86), rgba(13, 74, 80, 0.72));
-  -webkit-backdrop-filter: blur(18px) saturate(1.25);
-  backdrop-filter: blur(18px) saturate(1.25);
-}
-
-.verify-card :deep(.arco-card-header)::after {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 1px;
-  content: '';
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  padding: 24px 32px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .verify-card :deep(.arco-card-body) {
@@ -356,19 +342,40 @@ onMounted(() => {
 .card-title {
   font-size: 20px;
   font-weight: 600;
-  letter-spacing: 0.02em;
   text-align: center;
-  color: #f8fffe;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.verify-card :deep(.arco-alert) {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.verify-card :deep(.arco-alert .arco-alert-title),
+.verify-card :deep(.arco-alert .arco-alert-content),
+.verify-card :deep(.arco-alert .arco-icon) {
+  color: #fff;
+}
+
+.verify-card :deep(.arco-result .arco-result-title) {
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+.verify-card :deep(.arco-result .arco-result-subtitle) {
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .code-display {
   margin-bottom: 16px;
   padding: 20px 18px;
-  color: #754b08;
-  border: 1px solid #f2cb65;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 12px;
-  background: #fff8df;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.36);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
   font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
   font-size: clamp(30px, 7vw, 42px);
   font-weight: 800;
@@ -376,6 +383,7 @@ onMounted(() => {
   line-height: 1.1;
   text-align: center;
   word-break: break-all;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
 }
 
 .captcha-container {
@@ -384,9 +392,9 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px dashed rgba(18, 34, 53, 0.25);
+  border: 1px dashed rgba(255, 255, 255, 0.34);
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .verify-state {
@@ -401,18 +409,18 @@ onMounted(() => {
 .footer-text {
   display: block;
   margin: 4px 0;
-  color: var(--color-text-2);
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .icp-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.86);
   padding: 4px 14px 4px 10px;
   border-radius: 30px;
-  border: 1px solid rgba(18, 34, 53, 0.14);
-  box-shadow: 0 2px 6px rgba(0, 20, 50, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 6px rgba(0, 12, 30, 0.16);
   text-decoration: none;
   font-size: 14px;
   color: #2c3e50;
@@ -421,9 +429,9 @@ onMounted(() => {
 }
 
 .icp-badge:hover {
-  background: rgba(255, 255, 255, 0.92);
+  background: #fff;
   border-color: #8bb3e0;
-  box-shadow: 0 4px 12px rgba(30, 80, 180, 0.12);
+  box-shadow: 0 4px 12px rgba(30, 80, 180, 0.18);
   transform: translateY(-1px);
   color: #1a2a44;
 }
@@ -435,10 +443,10 @@ onMounted(() => {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
 }
 
-/* 不支持 backdrop-filter 时给一层更实的高透明白底，保证文字可读 */
+/* 不支持 backdrop-filter 时给深色实底，保证白字可读 */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .verify-card {
-    background: rgba(240, 248, 250, 0.94);
+    background: rgba(14, 22, 32, 0.9);
   }
 }
 
@@ -453,7 +461,7 @@ onMounted(() => {
   }
 
   .verify-card :deep(.arco-card-header) {
-    padding: 22px 20px 20px;
+    padding: 20px 20px 18px;
   }
 }
 
